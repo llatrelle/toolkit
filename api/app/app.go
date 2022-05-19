@@ -22,14 +22,14 @@ var (
 	Exp time.Duration
 	//Secret utilizado para la creacion de JWT
 	Secret string
-	//Log Logger inicializado
-	Log zerolog.Logger
+	//Logger inicializado
+	Logger zerolog.Logger
 )
 
 func init() {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	zerolog.SetGlobalLevel(-1)
-	Log = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 
 	Exp = 600 * time.Minute
 	Secret = os.Getenv("API_JWT_SECRET")
