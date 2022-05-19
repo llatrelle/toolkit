@@ -32,4 +32,5 @@ func init() {
 	Exp = 600 * time.Minute
 	Secret = os.Getenv("API_JWT_SECRET")
 	TokenAuth = jwtauth.New("HS256", []byte(Secret), nil)
+
 }
