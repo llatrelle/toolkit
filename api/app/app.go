@@ -22,7 +22,8 @@ var (
 	Exp time.Duration
 	//Secret utilizado para la creacion de JWT
 	Secret string
-	Log    zerolog.Logger
+	//Log Logger inicializado
+	Log zerolog.Logger
 )
 
 func init() {
