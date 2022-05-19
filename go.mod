@@ -1,4 +1,4 @@
-module toolkit-api
+module github.com/llatrelle/toolkit
 
 go 1.17
 
