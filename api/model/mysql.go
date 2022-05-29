@@ -17,6 +17,7 @@ func (m mysqlConnector) Open(user, secret, server, schema string) (*sql.DB, erro
 		if err == nil {
 			return db, err
 		}
+		log.Error().Err(err).Msg("Error connecting to MySQL Server (%v)")
 		time.Sleep(time.Second * 3)
 	}
 

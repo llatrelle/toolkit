@@ -4,9 +4,13 @@ import (
 	"database/sql"
 	"errors"
 	"github.com/llatrelle/toolkit/config"
+	"github.com/rs/zerolog"
 )
 
-var db *sql.DB
+var (
+	log zerolog.Logger
+	db  *sql.DB
+)
 
 type dbConnector interface {
 	Open(string, string, string, string) (*sql.DB, error)

@@ -30,7 +30,6 @@ func init() {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	zerolog.SetGlobalLevel(-1)
 	Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
-
 	Exp = 600 * time.Minute
 	Secret = os.Getenv("API_JWT_SECRET")
 	TokenAuth = jwtauth.New("HS256", []byte(Secret), nil)
