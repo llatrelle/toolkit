@@ -1,4 +1,4 @@
-package model
+package database
 
 import (
 	"database/sql"
@@ -13,7 +13,7 @@ var (
 )
 
 type dbConnector interface {
-	Open(string, string, string, string) (*sql.DB, error)
+	Open(string, string, string, string) *sql.DB
 }
 
 //Connect Open a SQL connection
@@ -30,11 +30,9 @@ func Connect(typeDB, user, secret, server, schema string) (*sql.DB, error) {
 		return db, nil
 	}
 	dbconn := newDB(typeDB)
-	db, err := dbconn.Open(user, secret, server, schema)
-	if err != nil {
-		return nil, err
-	}
-	return db, err
+	db = dbconn.Open(user, secret, server, schema)
+
+	return db, nil
 }
 
 //newDB Get a DBConnector with specific driver
@@ -53,8 +51,8 @@ func newDB(typeDB string) dbConnector {
 
 type genericDB struct{}
 
-func (m genericDB) Open(user, secret, server, schema string) (*sql.DB, error) {
-	return nil, errors.New("driver is not implemented")
+func (m genericDB) Open(user, secret, server, schema string) *sql.DB {
+	return nil
 }
 
 //getSQLVersion return de SQL version on the server
@@ -82,4 +80,8 @@ func verifyConnectionSettings(user, secret, server, schema string) error {
 
 	return nil
 
+}
+
+func SetLogger(l zerolog.Logger) {
+	log = l
 }

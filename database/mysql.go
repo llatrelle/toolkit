@@ -1,4 +1,4 @@
-package model
+package database
 
 import (
 	"database/sql"
@@ -10,14 +10,16 @@ import (
 
 type mysqlConnector struct{}
 
-func (m mysqlConnector) Open(user, secret, server, schema string) (*sql.DB, error) {
+func (m mysqlConnector) Open(user, secret, server, schema string) *sql.DB {
 	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s", user, secret, server, schema)
 	for {
 		db, err := sql.Open(config.DBTypeMySQL, connString)
 		if err == nil {
-			return db, err
+			if err = db.Ping(); err == nil {
+				return db
+			}
 		}
-		log.Error().Err(err).Msg("Error connecting to MySQL Server (%v)")
+		log.Error().Err(err).Msgf("Error connecting to MySQL Server (%v)", server)
 		time.Sleep(time.Second * 3)
 	}
 
