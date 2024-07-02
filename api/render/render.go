@@ -1,5 +1,5 @@
 // Package app El paquete application contiene todos los métodos y recursos comunes a la aplicación
-package app
+package render
 
 import (
 	"github.com/rs/zerolog/log"
