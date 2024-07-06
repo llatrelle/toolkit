@@ -30,7 +30,7 @@ func (app *Api) Serve() error {
 
 }
 
-//init set minimal values to serve
+// init set minimal values to serve
 func (app *Api) init() {
 	// default port
 	if app.port == "" {
