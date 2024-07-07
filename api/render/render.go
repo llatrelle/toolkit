@@ -2,9 +2,10 @@
 package render
 
 import (
-	"github.com/rs/zerolog/log"
-	"github.com/unrolled/render"
 	"io"
+	"toolkit/logger"
+
+	"github.com/unrolled/render"
 )
 
 func init() {
@@ -46,7 +47,7 @@ func Error(w io.Writer, message interface{}, cod ...int) {
 	if cod == nil {
 		cod = append(cod, 500)
 	}
-	log.Trace().Str("ctx", "render").Interface("msg", message).Msg("error")
+	logger.Trace("render", "error", message)
 	jSend(w, "error", cod[0], message, nil, nil)
 }
 
@@ -55,13 +56,10 @@ func Fail(w io.Writer, data interface{}, cod ...int) {
 	if cod == nil {
 		cod = append(cod, 400)
 	}
-
 	if d, ok := data.(string); ok {
-		log.Trace().Str("ctx", "render").Interface("data", data).Msg("fail")
-		// log.Println("fail:", d)
+		logger.Trace("render", "fail", data)
 		jSend(w, "fail", cod[0], d, nil, nil)
 	} else {
-		// log.Println("fail:", cod[0], data)
 		jSend(w, "fail", cod[0], "", data, nil)
 	}
 }
@@ -79,6 +77,5 @@ func SuccessWithWarning(w io.Writer, data interface{}, warnings interface{}, met
 	if cod == nil {
 		cod = append(cod, 200)
 	}
-
 	jSend(w, "warning", cod[0], warnings, data, metadata)
 }

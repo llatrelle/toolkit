@@ -9,10 +9,10 @@ import (
 
 func TestSuccess(t *testing.T) {
 	w := httptest.NewRecorder()
-	expected := `{"data":{"test":"is_test"},"status":"success","code":200,"message":""}`
+	expected := `{"data":{"tests":"is_test"},"status":"success","code":200,"message":""}`
 
 	m := make(map[string]interface{})
-	m["test"] = "is_test"
+	m["tests"] = "is_test"
 	Success(w, m, nil, http.StatusOK)
 
 	assert.Equal(t, expected, w.Body.String())
@@ -21,10 +21,10 @@ func TestSuccess(t *testing.T) {
 
 func TestSuccessWithOutCode(t *testing.T) {
 	w := httptest.NewRecorder()
-	expected := `{"data":{"test":"is_test"},"status":"success","code":200,"message":""}`
+	expected := `{"data":{"tests":"is_test"},"status":"success","code":200,"message":""}`
 
 	m := make(map[string]interface{})
-	m["test"] = "is_test"
+	m["tests"] = "is_test"
 	Success(w, m, nil)
 
 	assert.Equal(t, expected, w.Body.String())
@@ -63,10 +63,10 @@ func TestFail(t *testing.T) {
 
 func TestSuccessWithWarning(t *testing.T) {
 	w := httptest.NewRecorder()
-	expected := `{"data":{"test":"is_test"},"status":"warning","code":202,"message":"Some warn...","metadata":"some metadata..."}`
+	expected := `{"data":{"tests":"is_test"},"status":"warning","code":202,"message":"Some warn...","metadata":"some metadata..."}`
 
 	m := make(map[string]interface{})
-	m["test"] = "is_test"
+	m["tests"] = "is_test"
 	SuccessWithWarning(w, m, "Some warn...", "some metadata...", "some err...", http.StatusAccepted)
 
 	assert.Equal(t, expected, w.Body.String())
