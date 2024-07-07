@@ -1,4 +1,4 @@
-module toolkit
+module github.com/llatrelle/toolkit
 
 go 1.21.5
 
