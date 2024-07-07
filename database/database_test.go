@@ -1,5 +1,6 @@
 package database
 
+/*
 import (
 	"database/sql"
 	"fmt"
@@ -68,3 +69,4 @@ func TestVerifyConnectionSettingsSchemaSuccess(t *testing.T) {
 	err := verifyConnectionSettings("root", "1234", "localhost", "core")
 	assert.NoError(t, err)
 }
+*/

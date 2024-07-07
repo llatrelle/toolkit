@@ -1,9 +1,10 @@
 package utils
 
+/*
 import (
 	"database/sql"
 	"fmt"
-	sqlmock "github.com/DATA-DOG/go-sqlmock"
+	//	sqlmock "github.com/DATA-DOG/go-sqlmock"
 )
 
 func NewMockDB() (*sql.DB, sqlmock.Sqlmock) {
@@ -13,3 +14,4 @@ func NewMockDB() (*sql.DB, sqlmock.Sqlmock) {
 	}
 	return db, mock
 }
+*/

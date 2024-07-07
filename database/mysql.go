@@ -13,10 +13,10 @@ type mysqlConnector struct{}
 func (m mysqlConnector) Open(user, secret, server, schema string) *gorm.DB {
 	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s", user, secret, server, schema)
 	for {
-		db, err := gorm.Open(mysql.Open(connString), &gorm.Config{})
+		gormDB, err := gorm.Open(mysql.Open(connString), &gorm.Config{})
 		//	db, err := sql.Open(config.DBTypeMySQL, connString)
 		if err == nil {
-			conn, err := db.DB()
+			conn, err =: gormDB.DB()
 			if err == nil && conn.Ping() == nil {
 				return db
 			}

@@ -56,7 +56,7 @@ func getSQLVersion() (string, error) {
 	var version string
 	conn, err := db.DB()
 	if err == nil && db != nil {
-		err := conn.QueryRow("SELECT VERSION()").Scan(&version)
+		err = conn.QueryRow("SELECT VERSION()").Scan(&version)
 		return version, err
 
 	}
