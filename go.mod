@@ -2,8 +2,6 @@ module github.com/llatrelle/toolkit
 
 go 1.21.5
 
-replace github.com/llatrelle/toolkit => ./toolkit/logger
-
 require (
 	github.com/go-chi/chi v1.5.5
 	github.com/rs/zerolog v1.33.0

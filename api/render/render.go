@@ -2,9 +2,9 @@
 package render
 
 import (
-	"github.com/unrolled/render"
 	"io"
-	"toolkit/logger"
+
+	"github.com/unrolled/render"
 )
 
 func init() {
@@ -47,7 +47,6 @@ func Error(w io.Writer, message interface{}, cod ...int) {
 		cod = append(cod, 500)
 	}
 
-	logger.Trace("render", "error", message)
 	jSend(w, "error", cod[0], message, nil, nil)
 }
 
@@ -57,7 +56,6 @@ func Fail(w io.Writer, data interface{}, cod ...int) {
 		cod = append(cod, 400)
 	}
 	if d, ok := data.(string); ok {
-		logger.Trace("render", "fail", data)
 		jSend(w, "fail", cod[0], d, nil, nil)
 	} else {
 		jSend(w, "fail", cod[0], "", data, nil)
