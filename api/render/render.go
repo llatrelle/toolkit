@@ -2,10 +2,9 @@
 package render
 
 import (
+	"github.com/unrolled/render"
 	"io"
 	"toolkit/logger"
-
-	"github.com/unrolled/render"
 )
 
 func init() {
@@ -47,6 +46,7 @@ func Error(w io.Writer, message interface{}, cod ...int) {
 	if cod == nil {
 		cod = append(cod, 500)
 	}
+
 	logger.Trace("render", "error", message)
 	jSend(w, "error", cod[0], message, nil, nil)
 }
