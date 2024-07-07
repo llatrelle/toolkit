@@ -1,9 +1,7 @@
 package database
 
 import (
-	"errors"
 	"gorm.io/gorm"
-	"toolkit_old/config"
 )
 
 var (
@@ -36,7 +34,7 @@ func Connect(typeDB, user, secret, server, schema string) (*gorm.DB, error) {
 // newDB Get a DBConnector with specific driver
 func newDB(typeDB string) dbConnector {
 	switch typeDB {
-	case config.DBTypeMySQL:
+	case DBTypeMySQL:
 		dbType := mysqlConnector{}
 		return dbType
 		break
@@ -68,13 +66,13 @@ func getSQLVersion() (string, error) {
 func verifyConnectionSettings(user, secret, server, schema string) error {
 	switch {
 	case user == "":
-		return errors.New(ErrorSQLUser)
+		return ErrorSQLUser
 	case secret == "":
-		return errors.New(ErrorSQLSecret)
+		return ErrorSQLSecret
 	case server == "":
-		return errors.New(ErrorSQLHost)
+		return ErrorSQLHost
 	case schema == "":
-		return errors.New(ErrorSQLSchema)
+		return ErrorSQLSchema
 	}
 
 	return nil
