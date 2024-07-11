@@ -1,4 +1,4 @@
-package model
+package repository
 
 import (
 	tests "github.com/llatrelle/toolkit/tests/utils"
