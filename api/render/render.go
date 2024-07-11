@@ -1,4 +1,3 @@
-// Package app El paquete application contiene todos los métodos y recursos comunes a la aplicación
 package render
 
 import (
@@ -46,7 +45,6 @@ func Error(w io.Writer, message interface{}, cod ...int) {
 	if cod == nil {
 		cod = append(cod, 500)
 	}
-
 	jSend(w, "error", cod[0], message, nil, nil)
 }
 

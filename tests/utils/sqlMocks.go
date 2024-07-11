@@ -1,17 +1,20 @@
 package utils
 
-/*
 import (
-	"database/sql"
 	"fmt"
-	//	sqlmock "github.com/DATA-DOG/go-sqlmock"
+	sqlmock "github.com/DATA-DOG/go-sqlmock"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
-func NewMockDB() (*sql.DB, sqlmock.Sqlmock) {
-	database, mock, err := sqlmock.New()
+func NewMockDB() (*gorm.DB, sqlmock.Sqlmock) {
+	db, mock, err := sqlmock.New()
 	if err != nil {
 		fmt.Printf("Error creating sqlMock: %v", err.Error())
 	}
-	return database, mock
+	gormDB, err := gorm.Open(mysql.New(mysql.Config{
+		Conn:                      db,
+		SkipInitializeWithVersion: true,
+	}), &gorm.Config{})
+	return gormDB, mock
 }
-*/
