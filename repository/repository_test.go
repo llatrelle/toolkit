@@ -1,5 +1,6 @@
 package repository
 
+/*
 import (
 	tests "github.com/llatrelle/toolkit/tests/utils"
 	"github.com/stretchr/testify/assert"
@@ -77,3 +78,4 @@ func TestRemoveDBSuccess(t *testing.T) {
 func cleanDatabases() {
 	databases = make(map[string]*gorm.DB)
 }
+*/

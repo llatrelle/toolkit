@@ -16,38 +16,39 @@ const (
 	DBPrimary = "DBPrimary"
 )
 
-var (
+type repository struct {
 	databases map[string]*gorm.DB
-)
+}
 
-func init() {
-	databases = make(map[string]*gorm.DB)
+// NewRepository Create a new repository
+func NewRepository() *repository {
+	return &repository{databases: make(map[string]*gorm.DB)}
 }
 
 // AddDB Add a conection in map, with a connection name
-func AddDB(connectionName string, db *gorm.DB) error {
+func (r *repository) AddDB(connectionName string, db *gorm.DB) error {
 	if connectionName == "" {
 		return errors.New("connection name can not be empty")
 	}
 	if db == nil {
 		return errors.New("connection can not be nil")
 	}
-	if _, v := databases[connectionName]; v {
+	if _, v := r.databases[connectionName]; v {
 		return errors.New("Error adding database, connection exist")
 	}
 
-	databases[connectionName] = db
+	r.databases[connectionName] = db
 	return nil
 }
 
 // GetDB Return a *sql.DB
-func GetDB(connectionName string) *gorm.DB {
-	return databases[connectionName]
+func (r *repository) GetDB(connectionName string) *gorm.DB {
+	return r.databases[connectionName]
 }
 
 // RemoveDB Remove a connection from map of connection. Befre delete, try close the connection
-func RemoveDB(connectionName string) error {
-	db, hasValue := databases[connectionName]
+func (r *repository) RemoveDB(connectionName string) error {
+	db, hasValue := r.databases[connectionName]
 	if !hasValue {
 		return errors.New("the connection does not exist")
 	}
@@ -58,13 +59,13 @@ func RemoveDB(connectionName string) error {
 	if err := conn.Close(); err != nil && err.Error() != "all expectations were already fulfilled, call to database Close was not expected" {
 		return err
 	}
-	delete(databases, connectionName)
+	delete(r.databases, connectionName)
 	return nil
 }
 
-func Register(modeler Modeler) {
+func (r *repository) Register(modeler Modeler) {
 	//TODO: use const for primary connectionName
-	db := GetDB(DBPrimary)
+	db := r.GetDB(DBPrimary)
 	logger.Info(fmt.Sprintf("Automigrando recurso %v ... ", modeler.TableName()))
 	if err := db.AutoMigrate(modeler); err != nil {
 		logger.Error(fmt.Sprintf("Error automigrando recurso %v ", modeler.TableName()), err)
@@ -79,8 +80,8 @@ type Modeler interface {
 	NewModelList() interface{}
 }
 
-func Get(m *Modeler) (int, error) {
-	db := GetDB(DBPrimary)
+func (r *repository) Get(m *Modeler) (int, error) {
+	db := r.GetDB(DBPrimary)
 	var rowsLen int64
 	rowsLen = 0
 
@@ -97,8 +98,8 @@ func Get(m *Modeler) (int, error) {
 	return http.StatusOK, nil
 }
 
-func Delete(m Modeler) (int, error) {
-	db := GetDB(DBPrimary)
+func (r *repository) Delete(m Modeler) (int, error) {
+	db := r.GetDB(DBPrimary)
 	scope := db.Delete(m)
 	if scope.Error != nil {
 		return http.StatusInternalServerError, errors.New("Error deleting the resource")
@@ -111,8 +112,8 @@ func Delete(m Modeler) (int, error) {
 	}
 	return http.StatusOK, nil
 }
-func Create(m Modeler) (int, error) {
-	db := GetDB(DBPrimary)
+func (r *repository) Create(m Modeler) (int, error) {
+	db := r.GetDB(DBPrimary)
 	err := db.Create(m).Error
 	if err != nil {
 		return http.StatusInternalServerError, errors.New("Error creating resource")
@@ -120,8 +121,8 @@ func Create(m Modeler) (int, error) {
 	return http.StatusCreated, err
 }
 
-func Update(m Modeler) (int, error) {
-	db := GetDB(DBPrimary)
+func (r *repository) Update(m Modeler) (int, error) {
+	db := r.GetDB(DBPrimary)
 	scope := db.Model(m).Updates(m)
 
 	if scope.Error != nil {
@@ -137,13 +138,13 @@ func Update(m Modeler) (int, error) {
 	return http.StatusOK, nil
 }
 
-func GetAll(m Modeler, result interface{}) error {
-	db := GetDB(DBPrimary)
+func (r *repository) GetAll(m Modeler, result interface{}) error {
+	db := r.GetDB(DBPrimary)
 	err := db.Model(m).Find(result).Error
 	return err
 }
 
-func getKeyPair(keys, pks []string) string {
+func (r *repository) getKeyPair(keys, pks []string) string {
 	if len(keys) != len(pks) {
 		return ""
 	}
